@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Our Services | Royal Decorations</title>
+  <style>
+    :root {
+      --gold: #b8860b;
+      --dark-bg: #1a1a1a;
+      --light-gold: #ffd700;
+    }body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(45deg, var(--dark-bg) 30%, #0a0a0a 100%);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(34, 34, 34, 0.95);
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+nav .company-name {
+  font-size: 1.8em;
+  font-weight: bold;
+  background: linear-gradient(to right, var(--gold), var(--light-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul {
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  list-style: none;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.container {
+  text-align: center;
+  padding: 150px 20px;
+}
+
+h1 {
+  font-size: 3em;
+  background: linear-gradient(to right, var(--gold), var(--light-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.service-card {
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px solid var(--gold);
+  border-radius: 15px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--gold);
+}
+
+.service-card img {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.service-details {
+  display: none;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: center;
+  transition: opacity 0.5s ease;
+}
+
+.order-btn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: var(--gold);
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.order-btn:hover {
+  background: var(--light-gold);
+}
+
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="company-name">Royal Decorations Co.</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="services.html">Our Services</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+  </nav>  <div class="container">
+    <h1>Our Services</h1>
+    <div class="services">
+      <div class="service-card" onclick="toggleDetails('weddings')">
+        <img src="wedding.jpg" alt="Weddings">
+        Weddings
+      </div>
+      <div class="service-card" onclick="toggleDetails('engagements')">
+        <img src="engagement.jpg" alt="Engagements">
+        Engagements
+      </div>
+      <div class="service-card" onclick="toggleDetails('birthdays')">
+        <img src="birthday.jpg" alt="Birthdays">
+        Birthdays
+      </div>
+      <div class="service-card" onclick="toggleDetails('corporate')">
+        <img src="corporate.jpg" alt="Corporate Events">
+        Corporate Events
+      </div>
+      <div class="service-card" onclick="toggleDetails('anniversaries')">
+        <img src="anniversary.jpg" alt="Anniversaries">
+        Anniversaries
+      </div>
+    </div><div id="weddings" class="service-details">
+  <p>Luxurious wedding decorations with a royal theme.</p>
+  <button class="order-btn" onclick="placeOrder('Weddings')">Order Now</button>
+</div>
+
+<div id="engagements" class="service-details">
+  <p>Elegant engagement setups with a grand feel.</p>
+  <button class="order-btn" onclick="placeOrder('Engagements')">Order Now</button>
+</div>
+
+<div id="birthdays" class="service-details">
+  <p>Magical birthday decorations tailored to your theme.</p>
+  <button class="order-btn" onclick="placeOrder('Birthdays')">Order Now</button>
+</div>
+
+<div id="corporate" class="service-details">
+  <p>Professional and stunning corporate event decor.</p>
+  <button class="order-btn" onclick="placeOrder('Corporate Events')">Order Now</button>
+</div>
+
+<div id="anniversaries" class="service-details">
+  <p>Beautiful anniversary decorations for special moments.</p>
+  <button class="order-btn" onclick="placeOrder('Anniversaries')">Order Now</button>
+</div>
+
+  </div>  <script>
+    function toggleDetails(serviceId) {
+      document.querySelectorAll('.service-details').forEach(div => div.style.display = 'none');
+      document.getElementById(serviceId).style.display = 'block';
+    }
+
+    function placeOrder(serviceName) {
+      window.location.href = `mailto:your-email@example.com?subject=Order Request for ${serviceName}`;
+    }
+  </script></body>
+</html>
