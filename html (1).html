@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celebration Decorators</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Google Fonts for improved typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- AOS for scroll animations -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+  <style>
+    /* Root variables for our color theme and common settings */
+    :root {
+      --primary: #9370DB;
+      --secondary: #E6E6FA;
+      --accent: #6A5ACD;
+      --text-color: #333;
+      --nav-height: 70px;
+      --transition-speed: 0.3s;
+    }
+
+    /* Global Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+      color: var(--text-color);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Preloader Styles */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid var(--primary);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Navbar Styles */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--nav-height);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 1000;
+      transition: padding var(--transition-speed), background var(--transition-speed);
+    }
+    /* Shrink navbar on scroll */
+    nav.scrolled {
+      padding: 0 30px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    nav .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    nav ul li a {
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background var(--transition-speed), color var(--transition-speed);
+    }
+    nav ul li a:hover, nav ul li a.active {
+      color: var(--primary);
+      background: var(--secondary);
+    }
+
+    /* Page container for our SPA sections */
+    .page {
+      display: none;
+      padding: 100px 50px 50px;
+      animation: fadeIn 0.8s ease forwards;
+      min-height: calc(100vh - var(--nav-height));
+    }
+    .page.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Home (Hero) Section */
+    header.hero {
+      height: calc(100vh - var(--nav-height));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--secondary), #fff);
+      text-align: center;
+      padding: 0 20px;
+    }
+    header.hero h1 {
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      animation: slideInDown 0.8s ease forwards;
+    }
+    header.hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      animation: slideInUp 0.8s ease forwards;
+    }
+    .cta-btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition-speed);
+      animation: pulse 1.5s infinite;
+    }
+    .cta-btn:hover {
+      background: var(--accent);
+    }
+    @keyframes slideInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Services Page */
+    #services h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      text-align: center;
+    }
+    #services p {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+    .service-card {
+      position: relative;
+      width: 300px;
+      height: 220px;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    .service-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .service-card:hover img {
+      transform: scale(1.05);
+    }
+    .card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(147,112,219,0.9);
+      color: #fff;
+      padding: 15px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    /* Gallery Page */
+    #gallery h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      text-align: center;
+    }
+    #gallery p {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+    }
+
+    /* About Page */
+    #about h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      text-align: center;
+    }
+    #about p {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    .team-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+    .team-member {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 250px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .team-member:hover {
+      transform: translateY(-5px);
+    }
+    .team-member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    /* Contact Page */
+    #contact h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      text-align: center;
+    }
+    #contact p {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+    #contact form {
+      max-width: 500px;
+      margin: 0 auto 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    #contact input, #contact textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s;
+    }
+    #contact input:focus, #contact textarea:focus {
+      border: 1px solid var(--primary);
+    }
+    #contact button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #contact button:hover {
+      background: var(--accent);
+    }
+    .mailto-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+    .mailto-link a {
+      color: var(--primary);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .mailto-link a:hover {
+      color: var(--accent);
+    }
+    .social-links {
+      text-align: center;
+    }
+    .social-links a {
+      font-size: 1.8rem;
+      margin: 0 10px;
+      color: var(--primary);
+      transition: color 0.3s;
+    }
+    .social-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #f7f7f7;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .card-container { flex-direction: column; align-items: center; }
+      header.hero h1 { font-size: 2.8rem; }
+      header.hero p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav id="navbar">
+    <div class="logo">Celebration</div>
+    <ul>
+      <li><a href="#" class="nav-link active" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" class="nav-link" onclick="showPage('services')">Services</a></li>
+      <li><a href="#" class="nav-link" onclick="showPage('gallery')">Gallery</a></li>
+      <li><a href="#" class="nav-link" onclick="showPage('about')">About</a></li>
+      <li><a href="#" class="nav-link" onclick="showPage('contact')">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Home Page -->
+  <section id="home" class="page active" data-aos="fade-up">
+    <header class="hero">
+      <h1>Welcome to Celebration Decorators</h1>
+      <p>We transform your visions into breathtaking realities with our exquisite event decorations.</p>
+      <p>Experience the perfect blend of art, passion, and professionalism for every special occasion.</p>
+      <button class="cta-btn" onclick="showPage('services')">Discover Our Services</button>
+    </header>
+  </section>
+
+  <!-- Services Page -->
+  <section id="services" class="page" data-aos="fade-up">
+    <h2>Our Services</h2>
+    <p>Our dedicated team specializes in creating unforgettable experiences for weddings, birthdays, corporate events, and more. Each package is tailored to your unique vision.</p>
+    <div class="card-container">
+      <div class="service-card">
+        <img src="https://source.unsplash.com/400x300/?wedding" alt="Wedding Decorations">
+        <div class="card-overlay">Wedding Decorations</div>
+      </div>
+      <div class="service-card">
+        <img src="https://source.unsplash.com/401x300/?birthday" alt="Birthday Celebrations">
+        <div class="card-overlay">Birthday Celebrations</div>
+      </div>
+      <div class="service-card">
+        <img src="https://source.unsplash.com/402x300/?corporate" alt="Corporate Functions">
+        <div class="card-overlay">Corporate Functions</div>
+      </div>
+    </div>
+    <ul style="margin-top: 30px; padding-left: 20px; line-height: 1.8;">
+      <li><strong>Floral Designs:</strong> Custom arrangements to perfectly match your theme.</li>
+      <li><strong>Lighting Setup:</strong> Expert lighting to set the mood for your event.</li>
+      <li><strong>Stage &amp; Backdrop:</strong> Elegant designs for ceremonies and presentations.</li>
+      <li><strong>Theme Planning:</strong> From rustic charm to modern elegance, tailored to you.</li>
+    </ul>
+  </section>
+
+  <!-- Gallery Page -->
+  <section id="gallery" class="page" data-aos="fade-up">
+    <h2>Our Gallery</h2>
+    <p>Browse through our portfolio showcasing stunning event setups and decor designs that capture the essence of every celebration.</p>
+    <div class="gallery-grid">
+      <img src="https://source.unsplash.com/250x200/?party" alt="Party">
+      <img src="https://source.unsplash.com/251x200/?celebration" alt="Celebration">
+      <img src="https://source.unsplash.com/252x200/?wedding" alt="Wedding">
+      <img src="https://source.unsplash.com/253x200/?birthday" alt="Birthday">
+      <img src="https://source.unsplash.com/254x200/?anniversary" alt="Anniversary">
+      <img src="https://source.unsplash.com/255x200/?event" alt="Event">
+    </div>
+  </section>
+
+  <!-- About Page -->
+  <section id="about" class="page" data-aos="fade-up">
+    <h2>About Us</h2>
+    <p>Since our founding in 2015, Celebration Decorators has built a reputation for excellence in event design. Our passion, creativity, and attention to detail set us apart.</p>
+    <h3>Our Mission</h3>
+    <p>We strive to craft memorable experiences that reflect your unique style and vision, making every event a work of art.</p>
+    <div class="team-container">
+      <div class="team-member">
+        <img src="https://source.unsplash.com/100x100/?woman" alt="Alexandra Rivera">
+        <h3>Alexandra Rivera</h3>
+        <p>Lead Decorator with over 10 years of experience in luxury event design.</p>
+      </div>
+      <div class="team-member">
+        <img src="https://source.unsplash.com/101x100/?man" alt="Deepika">
+        <h3>Deepika</h3>
+        <p>The main head who supervise everything and manage everything </p>
+      </div>
+      <div class="team-member">
+        <img src="https://source.unsplash.com/102x100/?person" alt="Haneesh teja">
+        <h3>Haneesh teja</h3>
+        <p>Senior developer &amp; Visuals Expert who builds every application</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Page -->
+  <section id="contact" class="page" data-aos="fade-up">
+    <h2>Contact Us</h2>
+    <p>We'd love to hear from you! Whether you have questions, want to schedule a consultation, or simply want to discuss your vision, please get in touch.</p>
+    <form onsubmit="handleSubmit(event)">
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Your Name" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="Your Email" required>
+      
+      <label for="message">Message:</label>
+      <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+      
+      <button class="cta-btn" type="submit">Send Message</button>
+    </form>
+    <div class="mailto-link">
+      Or email us directly at: <a href="mailto:youremail@example.com">youremail@example.com</a>
+    </div>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Celebration Decorators — Crafted with passion and elegance.
+  </footer>
+
+  <!-- Scripts -->
+  <!-- AOS for scroll animations -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    // Initialize AOS animations
+    AOS.init({ duration: 1000 });
+
+    // Function to show selected page and update navigation links
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      // Mark the clicked link as active (simple matching by onclick attribute)
+      document.querySelector(`a[onclick="showPage('${id}')"]`).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Simple handler for the contact form that triggers a mailto link
+    function handleSubmit(event) {
+      event.preventDefault();
+      // Gather form data
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      // Compose mailto URL
+      const subject = encodeURIComponent("Inquiry from " + name);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+      // Change your email address here:
+      const mailtoLink = `mailto:youremail@example.com?subject=${subject}&body=${body}`;
+      // Open default mail client
+      window.location.href = mailtoLink;
+    }
+
+    // Preloader removal after window loads
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      preloader.style.opacity = '0';
+      setTimeout(() => preloader.style.display = 'none', 500);
+    });
+
+    // Navbar scroll effect to add class "scrolled"
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>
